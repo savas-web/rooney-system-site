@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rooney Systems - AI Agents for Agencies</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            background: #ffffff;
+        }
+
+        /* Header & Navigation */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: #ffffff;
+            border-bottom: 1px solid #f0f0f0;
+            padding: 1rem 2rem;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #000;
+            letter-spacing: -0.5px;
+        }
+
+        nav {
+            display: flex;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #666;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #000;
+        }
+
+        .cta-button {
+            background: #000;
+            color: #fff;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            background: #333;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+        }
+
+        .cta-button-secondary {
+            background: transparent;
+            color: #000;
+            border: 2px solid #000;
+        }
+
+        .cta-button-secondary:hover {
+            background: #f5f5f5;
+        }
+
+        /* Main content offset for fixed header */
+        main {
+            margin-top: 70px;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            color: #000;
+        }
+
+        .hero .subheadline {
+            font-size: 1.25rem;
+            color: #666;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin: 2.5rem 0;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #000;
+        }
+
+        .hero .cta-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2.5rem;
+            flex-wrap: wrap;
+        }
+
+        /* Section Styling */
+        section {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        section h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            text-align: center;
+            color: #000;
+        }
+
+        /* Problem Statement */
+        .problem-statement {
+            background: #f8f8f8;
+            text-align: center;
+        }
+
+        .problem-list {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .problem-item {
+            font-size: 1.1rem;
+            margin: 1.5rem 0;
+            padding: 1.5rem;
+            background: #ffffff;
+            border-radius: 8px;
+            border-left: 4px solid #000;
+        }
+
+        /* Process Section */
+        .process {
+            background: #ffffff;
+        }
+
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .process-card {
+            padding: 2rem;
+            border: 2px solid #f0f0f0;
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .process-card:hover {
+            border-color: #000;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        }
+
+        .process-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #000;
+            margin-bottom: 1rem;
+        }
+
+        .process-card h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .process-card p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        /* Services Section */
+        .services {
+            background: #f8f8f8;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .service-card {
+            background: #ffffff;
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid #e8e8e8;
+            transition: all 0.3s;
+        }
+
+        .service-card:hover {
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+            transform: translateY(-4px);
+        }
+
+        .service-card h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #000;
+        }
+
+        .service-card p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        /* Qualification Section */
+        .qualification {
+            background: #ffffff;
+        }
+
+        .qual-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .qual-box {
+            padding: 2.5rem;
+            border-radius: 12px;
+            border: 2px solid #f0f0f0;
+        }
+
+        .qual-box.not-for {
+            border-color: #ffcccc;
+            background: #fff8f8;
+        }
+
+        .qual-box.for {
+            border-color: #ccffcc;
+            background: #f8fff8;
+        }
+
+        .qual-box h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .qual-box ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .qual-box li {
+            margin: 1rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .qual-box.not-for li:before {
+            content: "✕";
+            position: absolute;
+            left: 0;
+            color: #ff6b6b;
+            font-weight: bold;
+        }
+
+        .qual-box.for li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #51cf66;
+            font-weight: bold;
+        }
+
+        /* Testimonials Section */
+        .testimonials {
+            background: #f8f8f8;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .testimonial-card {
+            background: #ffffff;
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid #e8e8e8;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .testimonial-text {
+            font-size: 1.05rem;
+            font-style: italic;
+            margin-bottom: 1.5rem;
+            color: #333;
+            line-height: 1.8;
+        }
+
+        .testimonial-author {
+            font-weight: 600;
+            color: #000;
+            margin-bottom: 0.25rem;
+        }
+
+        .testimonial-role {
+            font-size: 0.85rem;
+            color: #999;
+        }
+
+        /* Footer */
+        footer {
+            background: #000;
+            color: #fff;
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .footer-section a {
+            color: #ccc;
+            text-decoration: none;
+            font-size: 0.9rem;
+            margin: 0.5rem 0;
+            display: block;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: #fff;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #333;
+            padding-top: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-text {
+            font-size: 0.85rem;
+            color: #999;
+        }
+
+        .lovable-badge {
+            font-size: 0.75rem;
+            color: #999;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+            }
+
+            nav {
+                gap: 1rem;
+                font-size: 0.85rem;
+            }
+
+            nav a {
+                display: none;
+            }
+
+            .logo {
+                font-size: 1.25rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero .subheadline {
+                font-size: 1rem;
+            }
+
+            .hero-stats {
+                gap: 1.5rem;
+            }
+
+            section h2 {
+                font-size: 1.75rem;
+            }
+
+            .qual-container {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .hero .cta-group {
+                flex-direction: column;
+            }
+
+            .cta-button {
+                width: 100%;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header {
+                padding: 0.75rem;
+            }
+
+            .logo {
+                font-size: 1rem;
+            }
+
+            .hero {
+                padding: 2rem 1rem;
+            }
+
+            .hero h1 {
+                font-size: 1.5rem;
+            }
+
+            section {
+                padding: 2rem 1rem;
+            }
+
+            .hero-stats {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">Rooney Systems</div>
+        <nav>
+            <a href="#how-it-works">How It Works</a>
+            <a href="#who-its-for">Who It's For</a>
+            <a href="#results">Results</a>
+            <a href="#contact">Contact</a>
+            <button class="cta-button" onclick="scrollToContact()">Book a Free Audit</button>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1>Stop doing agency work. Start running one.</h1>
+            <p class="subheadline">AI agents and automations designed for agencies to eliminate repetitive tasks and scale operations.</p>
+            <div class="hero-stats">
+                <div class="stat">50+ Agencies Automated</div>
+                <div class="stat">Built for Real Operations</div>
+                <div class="stat">Results in Days</div>
+            </div>
+            <div class="cta-group">
+                <button class="cta-button" onclick="scrollToContact()">Book Free Audit</button>
+                <button class="cta-button cta-button-secondary" onclick="scrollToSection('how-it-works')">See How It Works</button>
+            </div>
+        </section>
+
+        <!-- Problem Statement Section -->
+        <section class="problem-statement">
+            <h2>The Agency Problem</h2>
+            <div class="problem-list">
+                <div class="problem-item">
+                    <strong>Time loss</strong> from manual reporting and follow-ups drains your team's bandwidth
+                </div>
+                <div class="problem-item">
+                    <strong>Your team</strong> performs low-value tasks instead of high-impact client work
+                </div>
+                <div class="problem-item">
+                    <strong>Operations</strong> remain disorganized, slowing growth and profitability
+                </div>
+            </div>
+        </section>
+
+        <!-- Process Section -->
+        <section class="process" id="how-it-works">
+            <h2>The Rooney Process</h2>
+            <div class="process-grid">
+                <div class="process-card">
+                    <div class="process-number">1</div>
+                    <h3>Audit</h3>
+                    <p>Workflow mapping and efficiency analysis to identify automation opportunities</p>
+                </div>
+                <div class="process-card">
+                    <div class="process-number">2</div>
+                    <h3>Design</h3>
+                    <p>Custom AI agent strategy tailored to your specific operations</p>
+                </div>
+                <div class="process-card">
+                    <div class="process-number">3</div>
+                    <h3>Build & Deploy</h3>
+                    <p>Rapid implementation of agents and workflows into your systems</p>
+                </div>
+                <div class="process-card">
+                    <div class="process-number">4</div>
+                    <h3>Optimize</h3>
+                    <p>Ongoing monitoring and refinement for continuous improvement</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section class="services">
+            <h2>What We Automate</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <h3>Lead Follow-up Automation</h3>
+                    <p>Intelligent agents that qualify, nurture, and schedule meetings for qualified leads</p>
+                </div>
+                <div class="service-card">
+                    <h3>Client Onboarding Workflows</h3>
+                    <p>Streamlined processes that reduce onboarding time and ensure consistent client experiences</p>
+                </div>
+                <div class="service-card">
+                    <h3>Automated Reporting</h3>
+                    <p>Real-time dashboards and reports generated automatically for clients and stakeholders</p>
+                </div>
+                <div class="service-card">
+                    <h3>Content Distribution</h3>
+                    <p>Agents that schedule, post, and optimize content across your marketing channels</p>
+                </div>
+                <div class="service-card">
+                    <h3>CRM Management</h3>
+                    <p>Intelligent systems that keep your CRM clean, updated, and actionable</p>
+                </div>
+                <div class="service-card">
+                    <h3>Task Management</h3>
+                    <p>Automated workflow orchestration that keeps projects moving and teams aligned</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Qualification Section -->
+        <section class="qualification" id="who-its-for">
+            <h2>Is This For You?</h2>
+            <div class="qual-container">
+                <div class="qual-box not-for">
+                    <h3>Not For</h3>
+                    <ul>
+                        <li>Sub $10k/month agencies</li>
+                        <li>Hands-on founders who love doing everything</li>
+                        <li>Teams resistant to process change</li>
+                    </ul>
+                </div>
+                <div class="qual-box for">
+                    <h3>Built For</h3>
+                    <ul>
+                        <li>Mid-market agencies ($10k $500k/month)</li>
+                        <li>Delegation-focused leaders</li>
+                        <li>Teams prioritizing scaling operations</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section class="testimonials" id="results">
+            <h2>Client Results</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"Clawed back 22 hours a week that we now reinvest in client strategy and growth work."</p>
+                    <div class="testimonial-author">Maya Chen</div>
+                    <div class="testimonial-role">Northbeam Studio</div>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"This completely rebuilt how our agency runs. Operations are now actually scalable."</p>
+                    <div class="testimonial-author">Devon Ali</div>
+                    <div class="testimonial-role">Bright Pixel Agency</div>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"Client onboarding went from days to 11 minutes. Our clients love the speed."</p>
+                    <div class="testimonial-author">Sara Lindgren</div>
+                    <div class="testimonial-role">Tilt Creative</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Rooney Systems</h4>
+                <p style="color: #ccc; font-size: 0.9rem; margin-bottom: 1rem;">AI agents and automations for modern agencies.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Navigation</h4>
+                <a href="#how-it-works">How It Works</a>
+                <a href="#who-its-for">Who It's For</a>
+                <a href="#results">Results</a>
+            </div>
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <a href="mailto:hello@rooney.digital">hello@rooney.digital</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="footer-text">&copy; 2026 Rooney Systems. All rights reserved.</div>
+            <div class="lovable-badge">Built with Lovable</div>
+        </div>
+    </footer>
+
+    <script>
+        function scrollToSection(sectionId) {
+            const element = document.getElementById(sectionId);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function scrollToContact() {
+            const footer = document.getElementById('contact');
+            if (footer) {
+                footer.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Smooth scroll for all anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href !== '#') {
+                    e.preventDefault();
+                    scrollToSection(href.substring(1));
+                }
+            });
+        });
+    </script>
+</body>
+</html>
