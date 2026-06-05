@@ -1,700 +1,241 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rooney Systems: AI Agents for Agencies</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            line-height: 1.6;
-            color: #1a1a1a;
-            background: #ffffff;
-        }
-
-        /* Header & Navigation */
-        header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background: #ffffff;
-            border-bottom: 1px solid #f0f0f0;
-            padding: 1rem 2rem;
-            z-index: 1000;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #000;
-            letter-spacing: -0.5px;
-        }
-
-        nav {
-            display: flex;
-            gap: 2.5rem;
-            align-items: center;
-        }
-
-        nav a {
-            text-decoration: none;
-            color: #666;
-            font-size: 0.95rem;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-
-        nav a:hover {
-            color: #000;
-        }
-
-        .cta-button {
-            background: #000;
-            color: #fff;
-            padding: 0.75rem 1.5rem;
-            border-radius: 6px;
-            text-decoration: none;
-            font-size: 0.95rem;
-            font-weight: 600;
-            transition: all 0.3s;
-            border: none;
-            cursor: pointer;
-        }
-
-        .cta-button:hover {
-            background: #333;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-        }
-
-        .cta-button-secondary {
-            background: transparent;
-            color: #000;
-            border: 2px solid #000;
-        }
-
-        .cta-button-secondary:hover {
-            background: #f5f5f5;
-        }
-
-        /* Main content offset for fixed header */
-        main {
-            margin-top: 70px;
-        }
-
-        /* Hero Section */
-        .hero {
-            padding: 5rem 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .hero h1 {
-            font-size: 3.5rem;
-            font-weight: 700;
-            line-height: 1.2;
-            margin-bottom: 1.5rem;
-            color: #000;
-        }
-
-        .hero .subheadline {
-            font-size: 1.25rem;
-            color: #666;
-            margin-bottom: 2rem;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .hero-stats {
-            display: flex;
-            justify-content: center;
-            gap: 3rem;
-            margin: 2.5rem 0;
-            flex-wrap: wrap;
-        }
-
-        .stat {
-            font-size: 0.95rem;
-            font-weight: 600;
-            color: #000;
-        }
-
-        .hero .cta-group {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            margin-top: 2.5rem;
-            flex-wrap: wrap;
-        }
-
-        /* Section Styling */
-        section {
-            padding: 4rem 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        section h2 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 2rem;
-            text-align: center;
-            color: #000;
-        }
-
-        /* Problem Statement */
-        .problem-statement {
-            background: #f8f8f8;
-            text-align: center;
-        }
-
-        .problem-list {
-            max-width: 700px;
-            margin: 0 auto;
-        }
-
-        .problem-item {
-            font-size: 1.1rem;
-            margin: 1.5rem 0;
-            padding: 1.5rem;
-            background: #ffffff;
-            border-radius: 8px;
-            border-left: 4px solid #000;
-        }
-
-        /* Process Section */
-        .process {
-            background: #ffffff;
-        }
-
-        .process-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .process-card {
-            padding: 2rem;
-            border: 2px solid #f0f0f0;
-            border-radius: 12px;
-            text-align: center;
-            transition: all 0.3s;
-        }
-
-        .process-card:hover {
-            border-color: #000;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-        }
-
-        .process-number {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #000;
-            margin-bottom: 1rem;
-        }
-
-        .process-card h3 {
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-        }
-
-        .process-card p {
-            color: #666;
-            font-size: 0.95rem;
-        }
-
-        /* Services Section */
-        .services {
-            background: #f8f8f8;
-        }
-
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .service-card {
-            background: #ffffff;
-            padding: 2rem;
-            border-radius: 12px;
-            border: 1px solid #e8e8e8;
-            transition: all 0.3s;
-        }
-
-        .service-card:hover {
-            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
-            transform: translateY(-4px);
-        }
-
-        .service-card h3 {
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            color: #000;
-        }
-
-        .service-card p {
-            color: #666;
-            font-size: 0.95rem;
-        }
-
-        /* Qualification Section */
-        .qualification {
-            background: #ffffff;
-        }
-
-        .qual-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            margin-top: 3rem;
-        }
-
-        .qual-box {
-            padding: 2.5rem;
-            border-radius: 12px;
-            border: 2px solid #f0f0f0;
-        }
-
-        .qual-box.not-for {
-            border-color: #ffcccc;
-            background: #fff8f8;
-        }
-
-        .qual-box.for {
-            border-color: #ccffcc;
-            background: #f8fff8;
-        }
-
-        .qual-box h3 {
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin-bottom: 1.5rem;
-        }
-
-        .qual-box ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .qual-box li {
-            margin: 1rem 0;
-            padding-left: 1.5rem;
-            position: relative;
-            color: #666;
-            font-size: 0.95rem;
-        }
-
-        .qual-box.not-for li:before {
-            content: "✕";
-            position: absolute;
-            left: 0;
-            color: #ff6b6b;
-            font-weight: bold;
-        }
-
-        .qual-box.for li:before {
-            content: "✓";
-            position: absolute;
-            left: 0;
-            color: #51cf66;
-            font-weight: bold;
-        }
-
-        /* Testimonials Section */
-        .testimonials {
-            background: #f8f8f8;
-        }
-
-        .testimonials-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .testimonial-card {
-            background: #ffffff;
-            padding: 2rem;
-            border-radius: 12px;
-            border: 1px solid #e8e8e8;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-        }
-
-        .testimonial-text {
-            font-size: 1.05rem;
-            font-style: italic;
-            margin-bottom: 1.5rem;
-            color: #333;
-            line-height: 1.8;
-        }
-
-        .testimonial-author {
-            font-weight: 600;
-            color: #000;
-            margin-bottom: 0.25rem;
-        }
-
-        .testimonial-role {
-            font-size: 0.85rem;
-            color: #999;
-        }
-
-        /* Footer */
-        footer {
-            background: #000;
-            color: #fff;
-            padding: 3rem 2rem;
-            margin-top: 4rem;
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .footer-section h4 {
-            font-size: 1rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-        }
-
-        .footer-section a {
-            color: #ccc;
-            text-decoration: none;
-            font-size: 0.9rem;
-            margin: 0.5rem 0;
-            display: block;
-            transition: color 0.3s;
-        }
-
-        .footer-section a:hover {
-            color: #fff;
-        }
-
-        .footer-bottom {
-            border-top: 1px solid #333;
-            padding-top: 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .footer-text {
-            font-size: 0.85rem;
-            color: #999;
-        }
-
-        .lovable-badge {
-            font-size: 0.75rem;
-            color: #999;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            header {
-                flex-direction: column;
-                gap: 1rem;
-                padding: 1rem;
-            }
-
-            nav {
-                gap: 1rem;
-                font-size: 0.85rem;
-            }
-
-            nav a {
-                display: none;
-            }
-
-            .logo {
-                font-size: 1.25rem;
-            }
-
-            .hero h1 {
-                font-size: 2rem;
-            }
-
-            .hero .subheadline {
-                font-size: 1rem;
-            }
-
-            .hero-stats {
-                gap: 1.5rem;
-            }
-
-            section h2 {
-                font-size: 1.75rem;
-            }
-
-            .qual-container {
-                grid-template-columns: 1fr;
-            }
-
-            .footer-bottom {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .hero .cta-group {
-                flex-direction: column;
-            }
-
-            .cta-button {
-                width: 100%;
-                text-align: center;
-            }
-        }
-
-        @media (max-width: 480px) {
-            header {
-                padding: 0.75rem;
-            }
-
-            .logo {
-                font-size: 1rem;
-            }
-
-            .hero {
-                padding: 2rem 1rem;
-            }
-
-            .hero h1 {
-                font-size: 1.5rem;
-            }
-
-            section {
-                padding: 2rem 1rem;
-            }
-
-            .hero-stats {
-                flex-direction: column;
-                gap: 1rem;
-            }
-        }
-    </style>
-</head>
-<body>
-    <header>
-        <div class="logo">Rooney Systems</div>
-        <nav>
-            <a href="#how-it-works">How It Works</a>
-            <a href="#who-its-for">Who It's For</a>
-            <a href="#results">Results</a>
-            <a href="#contact">Contact</a>
-            <button class="cta-button" onclick="scrollToContact()">Book a Free Audit</button>
-        </nav>
-    </header>
-
-    <main>
-        <!-- Hero Section -->
-        <section class="hero">
-            <h1>Stop doing agency work. Start running one.</h1>
-            <p class="subheadline">AI agents and automations designed for agencies to eliminate repetitive tasks and scale operations.</p>
-            <div class="hero-stats">
-                <div class="stat">50+ Agencies Automated</div>
-                <div class="stat">Built for Real Operations</div>
-                <div class="stat">Results in Days</div>
-            </div>
-            <div class="cta-group">
-                <button class="cta-button" onclick="scrollToContact()">Book Free Audit</button>
-                <button class="cta-button cta-button-secondary" onclick="scrollToSection('how-it-works')">See How It Works</button>
-            </div>
-        </section>
-
-        <!-- Problem Statement Section -->
-        <section class="problem-statement">
-            <h2>The Agency Problem</h2>
-            <div class="problem-list">
-                <div class="problem-item">
-                    <strong>Time loss</strong> from manual reporting and follow-ups drains your team's bandwidth
-                </div>
-                <div class="problem-item">
-                    <strong>Your team</strong> performs low-value tasks instead of high-impact client work
-                </div>
-                <div class="problem-item">
-                    <strong>Operations</strong> remain disorganized, slowing growth and profitability
-                </div>
-            </div>
-        </section>
-
-        <!-- Process Section -->
-        <section class="process" id="how-it-works">
-            <h2>The Rooney Process</h2>
-            <div class="process-grid">
-                <div class="process-card">
-                    <div class="process-number">1</div>
-                    <h3>Audit</h3>
-                    <p>Workflow mapping and efficiency analysis to identify automation opportunities</p>
-                </div>
-                <div class="process-card">
-                    <div class="process-number">2</div>
-                    <h3>Design</h3>
-                    <p>Custom AI agent strategy tailored to your specific operations</p>
-                </div>
-                <div class="process-card">
-                    <div class="process-number">3</div>
-                    <h3>Build & Deploy</h3>
-                    <p>Rapid implementation of agents and workflows into your systems</p>
-                </div>
-                <div class="process-card">
-                    <div class="process-number">4</div>
-                    <h3>Optimize</h3>
-                    <p>Ongoing monitoring and refinement for continuous improvement</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Services Section -->
-        <section class="services">
-            <h2>What We Automate</h2>
-            <div class="services-grid">
-                <div class="service-card">
-                    <h3>Lead Follow-up Automation</h3>
-                    <p>Intelligent agents that qualify, nurture, and schedule meetings for qualified leads</p>
-                </div>
-                <div class="service-card">
-                    <h3>Client Onboarding Workflows</h3>
-                    <p>Streamlined processes that reduce onboarding time and ensure consistent client experiences</p>
-                </div>
-                <div class="service-card">
-                    <h3>Automated Reporting</h3>
-                    <p>Real-time dashboards and reports generated automatically for clients and stakeholders</p>
-                </div>
-                <div class="service-card">
-                    <h3>Content Distribution</h3>
-                    <p>Agents that schedule, post, and optimize content across your marketing channels</p>
-                </div>
-                <div class="service-card">
-                    <h3>CRM Management</h3>
-                    <p>Intelligent systems that keep your CRM clean, updated, and actionable</p>
-                </div>
-                <div class="service-card">
-                    <h3>Task Management</h3>
-                    <p>Automated workflow orchestration that keeps projects moving and teams aligned</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Qualification Section -->
-        <section class="qualification" id="who-its-for">
-            <h2>Is This For You?</h2>
-            <div class="qual-container">
-                <div class="qual-box not-for">
-                    <h3>Not For</h3>
-                    <ul>
-                        <li>Sub $10k/month agencies</li>
-                        <li>Hands-on founders who love doing everything</li>
-                        <li>Teams resistant to process change</li>
-                    </ul>
-                </div>
-                <div class="qual-box for">
-                    <h3>Built For</h3>
-                    <ul>
-                        <li>Mid-market agencies ($10k $500k/month)</li>
-                        <li>Delegation-focused leaders</li>
-                        <li>Teams prioritizing scaling operations</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <!-- Testimonials Section -->
-        <section class="testimonials" id="results">
-            <h2>Client Results</h2>
-            <div class="testimonials-grid">
-                <div class="testimonial-card">
-                    <p class="testimonial-text">"Clawed back 22 hours a week that we now reinvest in client strategy and growth work."</p>
-                    <div class="testimonial-author">Maya Chen</div>
-                    <div class="testimonial-role">Northbeam Studio</div>
-                </div>
-                <div class="testimonial-card">
-                    <p class="testimonial-text">"This completely rebuilt how our agency runs. Operations are now actually scalable."</p>
-                    <div class="testimonial-author">Devon Ali</div>
-                    <div class="testimonial-role">Bright Pixel Agency</div>
-                </div>
-                <div class="testimonial-card">
-                    <p class="testimonial-text">"Client onboarding went from days to 11 minutes. Our clients love the speed."</p>
-                    <div class="testimonial-author">Sara Lindgren</div>
-                    <div class="testimonial-role">Tilt Creative</div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- Footer -->
-    <footer id="contact">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h4>Rooney Systems</h4>
-                <p style="color: #ccc; font-size: 0.9rem; margin-bottom: 1rem;">AI agents and automations for modern agencies.</p>
-            </div>
-            <div class="footer-section">
-                <h4>Navigation</h4>
-                <a href="#how-it-works">How It Works</a>
-                <a href="#who-its-for">Who It's For</a>
-                <a href="#results">Results</a>
-            </div>
-            <div class="footer-section">
-                <h4>Contact</h4>
-                <a href="mailto:hello@rooney.digital">hello@rooney.digital</a>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <div class="footer-text">&copy; 2026 Rooney Systems. All rights reserved.</div>
-            <div class="lovable-badge">Built with Lovable</div>
-        </div>
-    </footer>
-
-    <script>
-        function scrollToSection(sectionId) {
-            const element = document.getElementById(sectionId);
-            if (element) {
-                element.scrollIntoView({ behavior: 'smooth' });
-            }
-        }
-
-        function scrollToContact() {
-            const footer = document.getElementById('contact');
-            if (footer) {
-                footer.scrollIntoView({ behavior: 'smooth' });
-            }
-        }
-
-        // Smooth scroll for all anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                const href = this.getAttribute('href');
-                if (href !== '#') {
-                    e.preventDefault();
-                    scrollToSection(href.substring(1));
-                }
-            });
-        });
-    </script>
-</body>
-</html>
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="image" href="/__l5e/assets-v1/c8c985b1-b035-45b0-9629-16adbad2223c/rooney-logo.svg"/><link rel="stylesheet" href="/assets/styles-4i9I5eQl.css" data-precedence="default"/><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&amp;family=Outfit:wght@300;400;500;600;700&amp;display=swap" data-precedence="default"/><title>Rooney Systems — AI Agents &amp; Automations for Agencies</title><meta name="author" content="Rooney Systems"/><meta property="og:title" content="Rooney Systems — AI Agents &amp; Automations for Agencies"/><meta property="og:description" content="AI agents and automations built for marketing agencies. Stop doing repetitive work — start running your agency. Book a free audit."/><meta property="og:type" content="website"/><meta name="twitter:card" content="summary_large_image"/><meta name="twitter:title" content="Rooney Systems — AI Agents &amp; Automations for Agencies"/><meta name="twitter:description" content="AI agents and automations built for marketing agencies. Stop doing repetitive work — start running your agency. Book a free audit."/><meta property="og:image" content="https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/7bee9b3b-a7cd-44bf-ad37-b1053ccfbf3b/id-preview-578fcb8d--63ff3627-466f-4997-8d3b-8fa772c9f395.lovable.app-1780680548654.png"/><meta name="twitter:image" content="https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/7bee9b3b-a7cd-44bf-ad37-b1053ccfbf3b/id-preview-578fcb8d--63ff3627-466f-4997-8d3b-8fa772c9f395.lovable.app-1780680548654.png"/><meta name="description" content="Stop doing agency work. Start running one. AI agents and automations for marketing agencies."/><link rel="modulepreload" href="/assets/index-DGNaMRKV.js"/><link rel="modulepreload" href="/assets/index-D2EfAGSm.js"/><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
+<style>
+	@font-face {
+		font-family: 'CameraPlainVariable';
+		src: url('https://cdn.gpteng.co/mcp-widgets/v1/fonts/CameraPlainVariable.woff2') format('woff2');
+		font-weight: 100 900;
+		font-style: normal;
+		font-display: swap;
+	}
+
+	#lovable-badge {
+		--badge-bg: #1b1b1b;
+		--badge-text: #c5c1b9;
+		--badge-text-hover: #dcdad5;
+		--badge-radius: 6px;
+		--badge-padding: 8px;
+		--badge-gap: 6px;
+		--badge-shadow: 
+			0 0 0 1px rgba(0, 0, 0, 0.88),
+			0 1px 0 0 rgba(0, 0, 0, 0.04),
+			0 2px 2px -1px rgba(0, 0, 0, 0.08),
+			0 4px 4px -2px rgba(0, 0, 0, 0.08),
+			0 8px 8px -4px rgba(0, 0, 0, 0.08),
+			0 16px 16px -8px rgba(0, 0, 0, 0.08);
+		--badge-transition-duration: 0.2s;
+		--badge-transition-easing: cubic-bezier(0.16, 1, 0.32, 1);
+		--focus-color: #575ECF;
+		--focus-offset: 2px;
+		--focus-width: 2px;
+		
+		position: fixed;
+		bottom: 12px;
+		right: 12px;
+		height: 24px;
+		display: flex;
+		align-items: center;
+		z-index: 1000000;
+		background-color: var(--badge-bg) !important;
+		color: var(--badge-text) !important;
+		border-radius: var(--badge-radius);
+		box-shadow: var(--badge-shadow) !important;
+		font-size: 12px;
+		font-family: CameraPlainVariable, "CameraPlainVariable Fallback", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+		font-weight: 400 !important;
+		text-transform: none !important;
+		font-feature-settings: normal !important;
+		transform: translateZ(0);
+		will-change: transform, opacity;
+	}
+
+	#lovable-badge-cta {
+		display: flex;
+		align-items: center;
+		gap: var(--badge-gap);
+		padding: 0 var(--badge-padding);
+		height: 100%;
+		color: inherit;
+		text-decoration: none;
+		white-space: nowrap;
+		border-radius: var(--badge-radius) 0 0 var(--badge-radius);
+		transition: 
+			background-color var(--badge-transition-duration) ease,
+			color var(--badge-transition-duration) ease,
+			transform 0.1s ease;
+	}
+
+	#lovable-badge-cta:hover {
+		background: rgba(255, 255, 255, 0.04);
+		color: var(--badge-text-hover);
+	}
+
+	#lovable-badge-cta:active {
+		transform: scale(0.98);
+	}
+
+	#lovable-badge-cta:focus {
+		outline: none;
+	}
+
+	#lovable-badge-cta:focus-visible {
+		outline: var(--focus-width) solid var(--focus-color);
+		outline-offset: var(--focus-offset);
+		z-index: 1;
+	}
+
+	#lovable-badge-text {
+		line-height: 1;
+	}
+
+	#lovable-badge-divider {
+		width: 1px;
+		height: 24px;
+		background-color: rgba(255, 255, 255, 0.04);
+		flex-shrink: 0;
+	}
+
+	#lovable-badge-close {
+		width: 24px;
+		height: 24px;
+		min-width: 24px;
+		min-height: 24px;
+		cursor: pointer;
+		background: none;
+		border: none;
+		padding: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 0 var(--badge-radius) var(--badge-radius) 0;
+		flex-shrink: 0;
+		transition: 
+			background-color var(--badge-transition-duration) ease,
+			transform 0.1s ease;
+	}
+
+	#lovable-badge-close:hover {
+		background: rgba(255, 255, 255, 0.04);
+	}
+
+	#lovable-badge-close:active {
+		transform: scale(0.92);
+	}
+
+	#lovable-badge-close:focus {
+		outline: none;
+	}
+
+	#lovable-badge-close:focus-visible {
+		outline: var(--focus-width) solid var(--focus-color);
+		outline-offset: calc(var(--focus-offset) * -1);
+		z-index: 1;
+	}
+
+	#lovable-badge-close svg path {
+		fill: var(--badge-text);
+		transition: fill var(--badge-transition-duration) ease;
+	}
+
+	#lovable-badge-close:hover svg path {
+		fill: var(--badge-text-hover);
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		#lovable-badge-cta,
+		#lovable-badge-close,
+		#lovable-badge-close svg path {
+			transition: none;
+		}
+		
+		#lovable-badge-cta:active,
+		#lovable-badge-close:active {
+			transform: none;
+		}
+	}
+
+	@media (prefers-contrast: high) {
+		#lovable-badge {
+			--badge-bg: #000;
+			--badge-text: #fff;
+			--badge-text-hover: #fff;
+			border: 2px solid currentColor;
+		}
+		
+		#lovable-badge-cta:focus-visible,
+		#lovable-badge-close:focus-visible {
+			outline-width: 3px;
+		}
+	}
+</style>
+<script defer src="/~flock.js" data-proxy-url="/~api/analytics"></script><script defer src="/__l5e/events.js" data-artifact-kind="dwl_content_hash" data-artifact-id="ff6ed7ceda671cbfe5506c8d6b0354d7a59b689597198c3d15992df22ec7ec0a" data-commit-sha="c2a504dc9a8bb3df8b5e46cfaf1a78c354324b84" data-context-token="v1.eyJwcm9qZWN0X2lkIjoiNjNmZjM2MjctNDY2Zi00OTk3LThkM2ItOGZhNzcyYzlmMzk1IiwiYXJ0aWZhY3Rfa2luZCI6ImR3bF9jb250ZW50X2hhc2giLCJhcnRpZmFjdF9pZCI6ImZmNmVkN2NlZGE2NzFjYmZlNTUwNmM4ZDZiMDM1NGQ3YTU5YjY4OTU5NzE5OGMzZDE1OTkyZGYyMmVjN2VjMGEiLCJjb21taXRfc2hhIjoiYzJhNTA0ZGM5YThiYjNkZjhiNWU0NmNmYWYxYTc4YzM1NDMyNGI4NCIsImV4cCI6MTc4MDY4Njc1OH0.TKjdsrK7lyY8jvKnwj4kRpC7O0wcPyBcojt_BFfeJVc"></script></head><body><!--$--><main class="min-h-screen bg-background"><header class="fixed top-0 inset-x-0 z-50 backdrop-blur-md bg-background/70 border-b border-border/40"><div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between"><a href="#top" class="flex items-center gap-2" aria-label="Rooney Systems"><img src="/__l5e/assets-v1/c8c985b1-b035-45b0-9629-16adbad2223c/rooney-logo.svg" alt="Rooney Systems" class="h-9 w-9 rounded-md"/><span class="font-display font-bold text-lg tracking-tight">Rooney<span class="text-accent">.</span>Systems</span></a><nav class="hidden md:flex items-center gap-8 text-sm text-muted-foreground"><a href="#how" class="hover:text-foreground transition">How It Works</a><a href="#who" class="hover:text-foreground transition">Who It&#x27;s For</a><a href="#results" class="hover:text-foreground transition">Results</a><a href="#contact" class="hover:text-foreground transition">Contact</a></nav><a href="#contact" class="inline-flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-sm font-medium text-primary-foreground glow-hover">Book a Free Audit <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right size-4" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></a></div></header><section id="top" class="relative pt-32 pb-24 md:pt-40 md:pb-32 mesh-bg grain overflow-hidden"><div class="absolute inset-0 bg-[linear-gradient(to_right,oklch(0.5_0.2_295/0.06)_1px,transparent_1px),linear-gradient(to_bottom,oklch(0.5_0.2_295/0.06)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_at_center,black_30%,transparent_75%)]"></div><img src="/__l5e/assets-v1/c8c985b1-b035-45b0-9629-16adbad2223c/rooney-logo.svg" alt="" aria-hidden="true" class="logo-bg pointer-events-none select-none absolute left-1/2 top-1/2 w-[min(90vw,820px)] [mask-image:radial-gradient(ellipse_at_center,black_45%,transparent_75%)]"/><div class="relative max-w-7xl mx-auto px-6"><div class="inline-flex items-center gap-2 rounded-full border border-border/60 bg-card/40 px-3 py-1 text-xs text-muted-foreground animate-rise"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sparkles size-3 text-accent" aria-hidden="true"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"></path><path d="M20 2v4"></path><path d="M22 4h-4"></path><circle cx="4" cy="20" r="2"></circle></svg> AI Agents for Marketing Agencies</div><h1 class="mt-6 font-display font-bold uppercase text-5xl sm:text-7xl md:text-8xl leading-[0.95] tracking-tight animate-rise">Stop doing<br/><span class="text-foreground">agency work.</span><br/><span class="bg-gradient-to-r from-accent via-primary to-accent bg-clip-text text-transparent text-glow">Start running one.</span></h1><p class="mt-8 max-w-2xl text-lg text-muted-foreground animate-rise" style="animation-delay:.15s">AI agents and automations built for agencies — so you stop doing the repetitive stuff and start focusing on clients and results.</p><div class="mt-10 flex flex-wrap gap-4 animate-rise" style="animation-delay:.25s"><a href="#contact" class="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground glow-purple glow-hover">Book a Free Audit <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right size-4" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></a><a href="#how" class="inline-flex items-center gap-2 rounded-full border border-border bg-card/30 px-6 py-3 text-sm font-semibold text-foreground hover:bg-card/60 transition">See How It Works</a></div><div class="mt-16 flex flex-wrap items-center gap-x-8 gap-y-3 text-xs uppercase tracking-widest text-muted-foreground animate-rise" style="animation-delay:.4s"><span>50+ Agencies Automated</span><span class="size-1 rounded-full bg-accent/60"></span><span>Built for Real Operations</span><span class="size-1 rounded-full bg-accent/60"></span><span>Results in Days</span></div></div></section><section class="py-24 md:py-32 border-t border-border/40"><div class="max-w-7xl mx-auto px-6"><h2 class="font-display text-4xl md:text-6xl font-bold max-w-2xl">Your agency is <span class="text-accent">leaking time.</span></h2><div class="mt-16 grid md:grid-cols-3 gap-6"><div class="relative pl-6 rounded-2xl bg-card p-8 border border-border/60 glow-hover"><span class="absolute left-0 top-6 bottom-6 w-1 rounded-full bg-gradient-to-b from-primary to-accent"></span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock size-7 text-accent mb-6" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path></svg><p class="text-lg font-medium leading-snug">Hours lost on manual reporting and follow-ups</p></div><div class="relative pl-6 rounded-2xl bg-card p-8 border border-border/60 glow-hover"><span class="absolute left-0 top-6 bottom-6 w-1 rounded-full bg-gradient-to-b from-primary to-accent"></span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users size-7 text-accent mb-6" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><path d="M16 3.128a4 4 0 0 1 0 7.744"></path><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><circle cx="9" cy="7" r="4"></circle></svg><p class="text-lg font-medium leading-snug">Your team doing $10/hr tasks instead of $100/hr work</p></div><div class="relative pl-6 rounded-2xl bg-card p-8 border border-border/60 glow-hover"><span class="absolute left-0 top-6 bottom-6 w-1 rounded-full bg-gradient-to-b from-primary to-accent"></span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-workflow size-7 text-accent mb-6" aria-hidden="true"><rect width="8" height="8" x="3" y="3" rx="2"></rect><path d="M7 11v4a2 2 0 0 0 2 2h4"></path><rect width="8" height="8" x="13" y="13" rx="2"></rect></svg><p class="text-lg font-medium leading-snug">Chaos between client delivery and internal ops</p></div></div></div></section><section id="how" class="py-24 md:py-32 border-t border-border/40 bg-gradient-to-b from-background to-secondary/30"><div class="max-w-7xl mx-auto px-6"><div class="flex items-end justify-between flex-wrap gap-4"><h2 class="font-display text-4xl md:text-6xl font-bold">The Rooney Process</h2><p class="text-muted-foreground max-w-md">A four-step engagement, designed to ship value in days, not quarters.</p></div><div class="mt-16 grid md:grid-cols-2 lg:grid-cols-4 gap-6"><div class="group relative rounded-2xl border border-border/60 bg-card p-8 glow-hover"><div class="font-display text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-primary to-accent">01</div><h3 class="mt-6 text-xl font-semibold">Audit</h3><p class="mt-3 text-sm text-muted-foreground leading-relaxed">We map your agency&#x27;s workflows and find where time is being wasted.</p><div class="absolute inset-0 rounded-2xl ring-0 ring-accent/0 group-hover:ring-1 group-hover:ring-accent/30 transition"></div></div><div class="group relative rounded-2xl border border-border/60 bg-card p-8 glow-hover"><div class="font-display text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-primary to-accent">02</div><h3 class="mt-6 text-xl font-semibold">Design</h3><p class="mt-3 text-sm text-muted-foreground leading-relaxed">We design the right AI agents and automations for your exact operations.</p><div class="absolute inset-0 rounded-2xl ring-0 ring-accent/0 group-hover:ring-1 group-hover:ring-accent/30 transition"></div></div><div class="group relative rounded-2xl border border-border/60 bg-card p-8 glow-hover"><div class="font-display text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-primary to-accent">03</div><h3 class="mt-6 text-xl font-semibold">Build &amp; Deploy</h3><p class="mt-3 text-sm text-muted-foreground leading-relaxed">We build fast. You start seeing results within days, not months.</p><div class="absolute inset-0 rounded-2xl ring-0 ring-accent/0 group-hover:ring-1 group-hover:ring-accent/30 transition"></div></div><div class="group relative rounded-2xl border border-border/60 bg-card p-8 glow-hover"><div class="font-display text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-primary to-accent">04</div><h3 class="mt-6 text-xl font-semibold">Optimize</h3><p class="mt-3 text-sm text-muted-foreground leading-relaxed">We monitor, refine, and scale what&#x27;s working.</p><div class="absolute inset-0 rounded-2xl ring-0 ring-accent/0 group-hover:ring-1 group-hover:ring-accent/30 transition"></div></div></div></div></section><section class="py-24 md:py-32 border-t border-border/40"><div class="max-w-7xl mx-auto px-6"><h2 class="font-display text-4xl md:text-6xl font-bold max-w-3xl">What Rooney Systems <span class="text-accent">handles for you.</span></h2><div class="mt-16 grid sm:grid-cols-2 lg:grid-cols-3 gap-6"><div class="group rounded-2xl border border-border/60 bg-card p-8 glow-hover"><div class="inline-flex size-12 items-center justify-center rounded-xl bg-primary/15 border border-primary/30 mb-6 group-hover:bg-primary/25 transition"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail size-6 text-accent" aria-hidden="true"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"></path><rect x="2" y="4" width="20" height="16" rx="2"></rect></svg></div><h3 class="text-lg font-semibold">Lead follow-up &amp; outreach</h3><p class="mt-2 text-sm text-muted-foreground leading-relaxed">Personalized sequences that never miss a reply.</p></div><div class="group rounded-2xl border border-border/60 bg-card p-8 glow-hover"><div class="inline-flex size-12 items-center justify-center rounded-xl bg-primary/15 border border-primary/30 mb-6 group-hover:bg-primary/25 transition"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users size-6 text-accent" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><path d="M16 3.128a4 4 0 0 1 0 7.744"></path><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><circle cx="9" cy="7" r="4"></circle></svg></div><h3 class="text-lg font-semibold">Client onboarding workflows</h3><p class="mt-2 text-sm text-muted-foreground leading-relaxed">From signed contract to kickoff in one click.</p></div><div class="group rounded-2xl border border-border/60 bg-card p-8 glow-hover"><div class="inline-flex size-12 items-center justify-center rounded-xl bg-primary/15 border border-primary/30 mb-6 group-hover:bg-primary/25 transition"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chart-column size-6 text-accent" aria-hidden="true"><path d="M3 3v16a2 2 0 0 0 2 2h16"></path><path d="M18 17V9"></path><path d="M13 17V5"></path><path d="M8 17v-3"></path></svg></div><h3 class="text-lg font-semibold">Reporting &amp; dashboards</h3><p class="mt-2 text-sm text-muted-foreground leading-relaxed">Pixel-perfect client reports — generated, not built.</p></div><div class="group rounded-2xl border border-border/60 bg-card p-8 glow-hover"><div class="inline-flex size-12 items-center justify-center rounded-xl bg-primary/15 border border-primary/30 mb-6 group-hover:bg-primary/25 transition"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calendar-clock size-6 text-accent" aria-hidden="true"><path d="M16 14v2.2l1.6 1"></path><path d="M16 2v4"></path><path d="M21 7.5V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h3.5"></path><path d="M3 10h5"></path><path d="M8 2v4"></path><circle cx="16" cy="16" r="6"></circle></svg></div><h3 class="text-lg font-semibold">Content scheduling &amp; distribution</h3><p class="mt-2 text-sm text-muted-foreground leading-relaxed">Multi-channel publishing on autopilot.</p></div><div class="group rounded-2xl border border-border/60 bg-card p-8 glow-hover"><div class="inline-flex size-12 items-center justify-center rounded-xl bg-primary/15 border border-primary/30 mb-6 group-hover:bg-primary/25 transition"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-database size-6 text-accent" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M3 5V19A9 3 0 0 0 21 19V5"></path><path d="M3 12A9 3 0 0 0 21 12"></path></svg></div><h3 class="text-lg font-semibold">CRM updates &amp; data entry</h3><p class="mt-2 text-sm text-muted-foreground leading-relaxed">Your pipeline, kept clean without lifting a finger.</p></div><div class="group rounded-2xl border border-border/60 bg-card p-8 glow-hover"><div class="inline-flex size-12 items-center justify-center rounded-xl bg-primary/15 border border-primary/30 mb-6 group-hover:bg-primary/25 transition"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-list-checks size-6 text-accent" aria-hidden="true"><path d="M13 5h8"></path><path d="M13 12h8"></path><path d="M13 19h8"></path><path d="m3 17 2 2 4-4"></path><path d="m3 7 2 2 4-4"></path></svg></div><h3 class="text-lg font-semibold">Internal task management</h3><p class="mt-2 text-sm text-muted-foreground leading-relaxed">Agents that triage, assign, and follow up for you.</p></div></div></div></section><section id="who" class="py-24 md:py-32 border-t border-border/40 bg-gradient-to-b from-secondary/30 to-background"><div class="max-w-7xl mx-auto px-6"><h2 class="font-display text-4xl md:text-6xl font-bold">Is this for you?</h2><div class="mt-16 grid md:grid-cols-2 gap-6"><div class="rounded-2xl border border-border/60 bg-card/60 p-8"><div class="text-xs uppercase tracking-widest text-destructive/80 mb-6">Not For</div><ul class="space-y-4"><li class="flex items-start gap-3 text-muted-foreground"><span class="mt-0.5 inline-flex size-6 items-center justify-center rounded-full bg-destructive/15 border border-destructive/30"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x size-3.5 text-destructive" aria-hidden="true"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></span><span>Agencies doing under $10k/month</span></li><li class="flex items-start gap-3 text-muted-foreground"><span class="mt-0.5 inline-flex size-6 items-center justify-center rounded-full bg-destructive/15 border border-destructive/30"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x size-3.5 text-destructive" aria-hidden="true"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></span><span>Founders who want to stay in the weeds</span></li><li class="flex items-start gap-3 text-muted-foreground"><span class="mt-0.5 inline-flex size-6 items-center justify-center rounded-full bg-destructive/15 border border-destructive/30"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x size-3.5 text-destructive" aria-hidden="true"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></span><span>Teams allergic to process</span></li></ul></div><div class="rounded-2xl border border-primary/40 bg-card p-8 glow-purple"><div class="text-xs uppercase tracking-widest text-accent mb-6">Built For</div><ul class="space-y-4"><li class="flex items-start gap-3"><span class="mt-0.5 inline-flex size-6 items-center justify-center rounded-full bg-primary/25 border border-primary/50"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check size-3.5 text-accent" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg></span><span>Agencies doing $10k–$500k/month feeling operational drag</span></li><li class="flex items-start gap-3"><span class="mt-0.5 inline-flex size-6 items-center justify-center rounded-full bg-primary/25 border border-primary/50"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check size-3.5 text-accent" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg></span><span>Founders ready to delegate to systems, not just people</span></li><li class="flex items-start gap-3"><span class="mt-0.5 inline-flex size-6 items-center justify-center rounded-full bg-primary/25 border border-primary/50"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check size-3.5 text-accent" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg></span><span>Teams that want to scale without hiring chaos</span></li></ul></div></div></div></section><section id="results" class="py-24 md:py-32 border-t border-border/40"><div class="max-w-7xl mx-auto px-6"><h2 class="font-display text-4xl md:text-6xl font-bold">Results, not slideware.</h2><div class="mt-16 grid md:grid-cols-3 gap-6"><figure class="rounded-2xl border border-border/60 bg-card p-8 glow-hover relative"><span class="absolute -top-px left-8 right-8 h-px bg-gradient-to-r from-transparent via-accent to-transparent"></span><blockquote class="text-lg leading-relaxed">&quot;<!-- -->We clawed back 22 hours a week within the first sprint. Reporting alone paid for the engagement.<!-- -->&quot;</blockquote><figcaption class="mt-8 flex items-center gap-3"><span class="size-10 rounded-full bg-gradient-to-br from-primary to-accent"></span><div><div class="font-semibold text-sm">Maya Chen</div><div class="text-xs text-muted-foreground">Founder, Northbeam Studio</div></div></figcaption></figure><figure class="rounded-2xl border border-border/60 bg-card p-8 glow-hover relative"><span class="absolute -top-px left-8 right-8 h-px bg-gradient-to-r from-transparent via-accent to-transparent"></span><blockquote class="text-lg leading-relaxed">&quot;<!-- -->Rooney didn&#x27;t sell us tools. They rebuilt how our agency runs. The chaos is just… gone.<!-- -->&quot;</blockquote><figcaption class="mt-8 flex items-center gap-3"><span class="size-10 rounded-full bg-gradient-to-br from-primary to-accent"></span><div><div class="font-semibold text-sm">Devon Ali</div><div class="text-xs text-muted-foreground">COO, Bright Pixel Agency</div></div></figcaption></figure><figure class="rounded-2xl border border-border/60 bg-card p-8 glow-hover relative"><span class="absolute -top-px left-8 right-8 h-px bg-gradient-to-r from-transparent via-accent to-transparent"></span><blockquote class="text-lg leading-relaxed">&quot;<!-- -->Onboarding used to take a week. It now takes 11 minutes. We launched faster than we promised.<!-- -->&quot;</blockquote><figcaption class="mt-8 flex items-center gap-3"><span class="size-10 rounded-full bg-gradient-to-br from-primary to-accent"></span><div><div class="font-semibold text-sm">Sara Lindgren</div><div class="text-xs text-muted-foreground">MD, Tilt Creative</div></div></figcaption></figure></div></div></section><section id="contact" class="py-24 md:py-32 px-6"><div class="relative max-w-6xl mx-auto rounded-3xl overflow-hidden border border-primary/40 grain"><div class="absolute inset-0 bg-gradient-to-br from-primary via-primary/80 to-accent/60"></div><div class="absolute inset-0 bg-[radial-gradient(60%_60%_at_50%_0%,oklch(1_0_0/0.25),transparent_70%)]"></div><div class="relative p-12 md:p-20 text-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-zap mx-auto size-10 text-primary-foreground/90" aria-hidden="true"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"></path></svg><h2 class="mt-6 font-display text-4xl md:text-6xl font-bold text-primary-foreground max-w-3xl mx-auto">Ready to get your agency out of the weeds?</h2><p class="mt-6 max-w-xl mx-auto text-primary-foreground/85">Book a free 30-min audit. We&#x27;ll map your operations and show you exactly where AI agents can give you time back.</p><a href="mailto:hello@rooney.digital" class="mt-10 inline-flex items-center gap-2 rounded-full bg-background px-7 py-3.5 text-sm font-semibold text-foreground hover:bg-background/90 transition">Book Your Free Audit <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right size-4" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></a><div class="mt-6 flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs uppercase tracking-widest text-primary-foreground/80"><span class="inline-flex items-center gap-1.5"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield-check size-3.5" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path><path d="m9 12 2 2 4-4"></path></svg> No obligation</span><span>Action plan included</span><span>Results in days</span></div></div></div></section><footer class="border-t border-border/40 py-12"><div class="max-w-7xl mx-auto px-6 flex flex-wrap items-start justify-between gap-8"><div><div class="flex items-center gap-2"><img src="/__l5e/assets-v1/c8c985b1-b035-45b0-9629-16adbad2223c/rooney-logo.svg" alt="Rooney Systems" class="h-8 w-8 rounded-md"/><div class="font-display font-bold text-lg">Rooney<span class="text-accent">.</span>Systems</div></div><p class="mt-2 text-sm text-muted-foreground">AI Agents &amp; Automations for Agencies</p></div><nav class="flex flex-wrap gap-x-8 gap-y-2 text-sm text-muted-foreground"><a href="#how" class="hover:text-foreground transition">How It Works</a><a href="#who" class="hover:text-foreground transition">Who It&#x27;s For</a><a href="#contact" class="hover:text-foreground transition">Book Audit</a></nav><a href="mailto:hello@rooney.digital" class="text-sm text-accent hover:underline">hello@rooney.digital</a></div><div class="max-w-7xl mx-auto px-6 mt-10 text-xs text-muted-foreground">© 2026 Rooney Systems. All rights reserved.</div></footer></main><script>(function(t){let s;try{s=JSON.parse(sessionStorage.getItem(t.storageKey)||"{}")}catch(e){console.error(e);return}const c=t.key||window.history.state?.__TSR_key,r=c?s[c]:void 0;if(t.shouldScrollRestoration&&r&&typeof r=="object"&&Object.keys(r).length>0){for(const e in r){const o=r[e];if(!o||typeof o!="object")continue;const l=o.scrollX,i=o.scrollY;if(!(!Number.isFinite(l)||!Number.isFinite(i))){if(e==="window")window.scrollTo({top:i,left:l,behavior:t.behavior});else if(e){let n;try{n=document.querySelector(e)}catch{continue}n&&(n.scrollLeft=l,n.scrollTop=i)}}}return}const a=window.location.hash.split("#",2)[1];if(a){const e=window.history.state?.__hashScrollIntoViewOptions??!0;if(e){const o=document.getElementById(a);o&&o.scrollIntoView(e)}return}window.scrollTo({top:0,left:0,behavior:t.behavior})})({"storageKey":"tsr-scroll-restoration-v1_3","shouldScrollRestoration":true});document.currentScript.remove()</script><!--/$--><script class="$tsr" id="$tsr-stream-barrier">(self.$R=self.$R||{})["tsr"]=[];self.$_TSR={h(){this.hydrated=!0,this.c()},e(){this.streamEnded=!0,this.c()},c(){this.hydrated&&this.streamEnded&&(delete self.$_TSR,delete self.$R.tsr)},p(e){this.initialized?e():this.buffer.push(e)},buffer:[]};$_TSR.router=($R=>$R[0]={manifest:$R[1]={routes:$R[2]={__root__:$R[3]={preloads:$R[4]=["/assets/index-DGNaMRKV.js"],assets:$R[5]=[$R[6]={tag:"script",attrs:$R[7]={type:"module",async:!0},children:"import(\"/assets/index-DGNaMRKV.js\")"}]},"/":$R[8]={preloads:$R[9]=["/assets/index-D2EfAGSm.js"]}}},matches:$R[10]=[$R[11]={i:"__root__ ",u:1780683158374,s:"success",ssr:!0},$R[12]={i:"  ",u:1780683158374,s:"success",ssr:!0}],lastMatchId:"  "})($R["tsr"]);$_TSR.e();document.currentScript.remove()</script><script type="module" async="">import("/assets/index-DGNaMRKV.js")</script>
+<aside 
+	id="lovable-badge" 
+	role="complementary"
+	dir="ltr"
+	lang="en"
+	aria-label="Edit with Lovable">
+	<a 
+		id="lovable-badge-cta" 
+		target="_blank" 
+		href="https://lovable.dev/projects/63ff3627-466f-4997-8d3b-8fa772c9f395?utm_source=lovable-badge"
+		rel="noopener nofollow"
+		aria-label="Edit with Lovable">
+		<span id="lovable-badge-text">Edit with</span>
+		<svg xmlns="http://www.w3.org/2000/svg" width="52" height="16" fill="none" viewBox="0 0 52 16">
+  <path fill="#FCFBF8" fill-rule="evenodd" d="M20.318 5.25c.643 0 1.206.14 1.69.418a2.81 2.81 0 0 1 1.118 1.191c.266.513.4 1.115.4 1.807s-.134 1.296-.4 1.812a2.81 2.81 0 0 1-1.118 1.193c-.484.278-1.047.418-1.69.418s-1.208-.14-1.695-.418a2.85 2.85 0 0 1-1.125-1.193c-.262-.516-.393-1.12-.393-1.812s.131-1.294.393-1.807a2.848 2.848 0 0 1 1.125-1.191c.487-.279 1.052-.418 1.695-.418Zm0 1.425c-.27 0-.504.076-.7.228-.193.147-.34.37-.443.67-.102.295-.153.66-.153 1.093 0 .435.05.801.153 1.1.102.3.25.524.443.676.196.147.43.22.7.22.27 0 .502-.073.694-.22.193-.152.341-.375.443-.67.103-.299.153-.667.153-1.106 0-.65-.112-1.145-.337-1.481a1.08 1.08 0 0 0-.953-.51ZM32.7 5.25c.61 0 1.127.1 1.549.3.422.197.74.48.953.849.217.368.325.809.325 1.32v2.704c0 .29.02.562.062.812.044.245.108.4.19.466V12h-1.935a5.895 5.895 0 0 1-.105-.684 7.745 7.745 0 0 1-.02-.228 2.293 2.293 0 0 1-.151.203c-.205.242-.47.437-.793.584-.32.143-.685.215-1.094.215-.406 0-.77-.08-1.094-.24a1.845 1.845 0 0 1-.756-.682 1.984 1.984 0 0 1-.27-1.045c0-.606.178-1.069.535-1.388.356-.324.87-.534 1.542-.633l1.125-.16c.225-.032.403-.074.534-.123a.622.622 0 0 0 .288-.196.549.549 0 0 0 .093-.327.65.65 0 0 0-.11-.367.702.702 0 0 0-.32-.27c-.14-.07-.31-.105-.51-.105-.32 0-.576.083-.768.251-.193.164-.298.39-.314.676h-1.923c.016-.434.147-.82.393-1.155.25-.34.596-.604 1.039-.792.442-.189.954-.283 1.535-.283Zm.99 3.498a.98.98 0 0 1-.215.14 2.49 2.49 0 0 1-.584.178l-.473.092c-.315.061-.553.156-.713.283-.155.127-.233.305-.233.534 0 .23.084.412.252.547.168.135.383.203.645.203s.494-.058.694-.173c.201-.118.355-.282.461-.49.11-.21.166-.448.166-.714v-.6Zm4.526-2.375c.065-.125.138-.243.221-.349.197-.25.437-.44.719-.571.282-.135.6-.203.952-.203.528 0 .988.138 1.377.412.389.275.688.67.896 1.186.21.512.314 1.12.314 1.824 0 .7-.107 1.309-.32 1.825-.213.512-.518.906-.915 1.18-.393.275-.854.412-1.383.412-.352 0-.667-.062-.946-.184a1.832 1.832 0 0 1-.7-.554 2.2 2.2 0 0 1-.234-.383V12h-1.843V3h1.862v3.373Zm1.284.296c-.274 0-.51.085-.707.253-.192.163-.338.397-.436.7a3.376 3.376 0 0 0-.148 1.05c0 .406.05.759.148 1.058.098.299.243.53.436.694.197.164.433.246.707.246.279 0 .512-.082.7-.246.193-.164.336-.395.43-.694.099-.3.148-.652.148-1.058 0-.405-.05-.757-.147-1.056-.095-.299-.238-.53-.43-.694a1.015 1.015 0 0 0-.7-.253Zm9.416-1.419c.602 0 1.136.131 1.604.393.466.262.829.643 1.086 1.143.263.5.394 1.097.394 1.794 0 .25-.002.449-.006.596H47.51c.018.288.071.538.164.75a1.3 1.3 0 0 0 .491.596c.214.13.465.196.757.196.319 0 .583-.082.792-.246.209-.167.34-.403.393-.706h1.862a2.48 2.48 0 0 1-.485 1.235 2.54 2.54 0 0 1-1.051.805c-.439.188-.949.283-1.53.283-.655 0-1.225-.125-1.708-.375a2.672 2.672 0 0 1-1.13-1.143c-.267-.508-.4-1.137-.4-1.887 0-.712.14-1.327.418-1.843a2.86 2.86 0 0 1 1.155-1.186c.491-.27 1.051-.405 1.678-.405Zm-.044 1.345c-.274 0-.516.068-.725.203a1.29 1.29 0 0 0-.479.59 2.045 2.045 0 0 0-.132.498h2.562a1.873 1.873 0 0 0-.138-.602 1.061 1.061 0 0 0-.418-.516 1.243 1.243 0 0 0-.67-.173Z" clip-rule="evenodd"/>
+  <path fill="#FCFBF8" d="m26.605 9.995 1.342-4.566h1.924L27.628 12h-2.07l-2.33-6.57h1.98l1.397 4.565Zm-13.013.143h2.256c1.632 0 1.421 1.837 1.418 1.861h-5.603V3h1.93v7.138Zm31.516 1.861h-1.862V3h1.862v8.999Z"/>
+  <path fill="url(#a)" fill-rule="evenodd" d="M2.7 3c1.492 0 2.7 1.192 2.7 2.663v1.012h.9c1.49 0 2.7 1.192 2.7 2.662S7.791 12 6.3 12H0V5.663C0 4.193 1.209 3 2.7 3Z" clip-rule="evenodd"/>
+  <defs>
+    <radialGradient id="a" cx="0" cy="0" r="1" gradientTransform="matrix(-1.54236 7.07838 -10.231 -2.15602 4.627 5.022)" gradientUnits="userSpaceOnUse">
+      <stop offset=".106" stop-color="#FE7B02"/>
+      <stop offset=".394" stop-color="#FE3F21"/>
+      <stop offset=".608" stop-color="#F858BC"/>
+      <stop offset=".929" stop-color="#575ECF"/>
+    </radialGradient>
+  </defs>
+</svg>
+
+
+	</a>
+	
+	<span id="lovable-badge-divider" aria-hidden="true"></span>
+	
+	<button 
+		id="lovable-badge-close"
+		aria-label="Dismiss"
+		title="Dismiss"
+		type="button">
+		<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 16 16" aria-hidden="true">
+			<path d="M10.646 4.646a.5.5 0 1 1 .707.708L8.707 8l2.646 2.646a.5.5 0 1 1-.707.707L8 8.707l-2.646 2.646a.5.5 0 1 1-.708-.707L7.293 8 4.646 5.354a.5.5 0 1 1 .708-.708L8 7.293l2.646-2.647Z"/>
+		</svg>
+	</button>
+</aside>
+<script>
+	// Don't show the lovable-badge if the page is in an iframe or if it's being rendered by puppeteer (screenshot service)
+	if (window.self !== window.top || navigator.userAgent.includes('puppeteer')) {
+		// the page is in an iframe
+		var badge = document.getElementById('lovable-badge');
+		if (badge) {
+			badge.style.display = 'none';
+		}
+	}
+
+	// Add click event listener to close button with animation
+	var closeButton = document.getElementById('lovable-badge-close');
+	if (closeButton) {
+		closeButton.addEventListener('click', function(event) {
+			event.preventDefault();
+			event.stopPropagation();
+			var badge = document.getElementById('lovable-badge');
+			if (badge) {
+				badge.classList.add('closing');
+				setTimeout(function() {
+					if (badge) {
+						badge.style.display = 'none';
+					}
+				}, 240);
+			}
+		});
+	}
+</script>
+</body></html>
